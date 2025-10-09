@@ -5,24 +5,22 @@ const Breadcrumbs = () => {
     const location = useLocation();
     const pathSegments = location.pathname.split("/").filter(Boolean);
 
-    // Don't show breadcrumbs on homepage
-    if (location.pathname === "/") return null;
-
     // Detect if we are on a category product detail route: /categories/:title/:id
     const isCategoryProductDetail =
         pathSegments[0] === "categories" && pathSegments.length === 3;
 
-    // Declare placeholders
-    let product = null;
+    // Call hook unconditionally (pass null when not needed) to satisfy Hooks rules
+    const result = useSupabaseFetch(
+        isCategoryProductDetail ? "products" : null,
+        isCategoryProductDetail
+            ? { single: true, filter: { column: "id", operator: "eq", value: pathSegments[2] } }
+            : {}
+    );
 
-    const result = isCategoryProductDetail
-        ? useSupabaseFetch("products", {
-            single: true,
-            filter: { column: "id", operator: "eq", value: pathSegments[2] },
-        })
-        : { data: null, loading: false, error: null };
+    const product = result?.data;
 
-    product = result.data
+    // Don't show breadcrumbs on homepage
+    if (location.pathname === "/") return null;
 
     const commonClasses =
         "text-base font-medium font-montserrat capitalize leading-6 align-middle";
@@ -41,7 +39,7 @@ const Breadcrumbs = () => {
 
                 // Handle product detail label inside categories
                 if (isCategoryProductDetail && isLast) {
-                    label =  product?.name;
+                    label = product?.name;
                 }
 
                 // Handle product detail under /products/:id

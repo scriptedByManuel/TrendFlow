@@ -24,6 +24,7 @@ const useSupabaseFetch = (table, options = {}) => {
         try {
             let query = supabase.from(table).select(options.select || "*");
 
+
             // Optional filters
             if (options.filter) {
                 // example: { column: 'category_id', operator: 'eq', value: 3 }
