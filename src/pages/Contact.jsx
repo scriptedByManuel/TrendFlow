@@ -35,18 +35,18 @@ const Contact = () => {
           <input
             type="text"
             placeholder='Name'
-            className='w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded text-secondary font-montserrat text-sm leading-[150%] h-[45px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200'
+            className='w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded-lg text-secondary font-montserrat text-sm leading-[150%] h-[45px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200'
           />
           <input
             type="text"
             placeholder='Phone Number'
-            className='w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded text-secondary font-montserrat text-sm leading-[150%] h-[45px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200'
+            className='w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded-lg text-secondary font-montserrat text-sm leading-[150%] h-[45px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200'
           />
           <textarea
             name=""
             id=""
             placeholder='Message'
-            className='w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded text-secondary font-montserrat text-sm leading-[150%] h-[249px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200'
+            className='w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded-lg text-secondary font-montserrat text-sm leading-[150%] h-[249px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200'
           ></textarea>
           <button className='bg-primary px-[16px] h-[54px] rounded-lg active:bg-gray-800 active:scale-95 cursor-pointer transition-all duration-200 focus:outline-none'>
             <p className='text-[#FAFAFA] font-montserrat font-semibold text-sm leading-[20%]'>Send Message</p>

@@ -3,10 +3,20 @@ import { Handbag, Heart, Search, UserRound } from 'lucide-react'
 import logo from '../assets/images/TrendFlowLogo.png'
 import { Link } from 'react-router-dom'
 import SearchModal from './SearchModal'
+import useAuth from '../hooks/useAuth'
 
 
 const NavBar = () => {
     const [open, setOpen] = useState(false)
+    const { signOut } = useAuth();
+    const handleSignOut = async () => {
+        try {
+            await signOut();
+            // Optionally, you can redirect the user or show a message
+        } catch (error) {
+            console.error('Error signing out:', error.message);
+        }
+    }
     return (
         <>
             <nav className='py-[40px] px-[80px]'>
@@ -14,6 +24,9 @@ const NavBar = () => {
                     <ul>
                         <li>
                             <img src={logo} alt="" />
+                        </li>
+                        <li onClick={handleSignOut} className='cursor-pointer text-sm text-primary font-montserrat mt-2'>
+                            log out
                         </li>
                     </ul>
                     <ul className='flex items-center font-montserrat uppercase text-sm font-medium gap-[40px] text-primary'>
