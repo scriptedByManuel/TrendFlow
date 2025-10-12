@@ -6,6 +6,8 @@ import useAuth from '../hooks/useAuth';
 
 
 const AuthPage = () => {
+    
+
     const [mode, setMode] = useState('signUp'); // 'signIn' or 'signUp'
     const [loading, setLoading] = useState(false);
 
@@ -18,12 +20,12 @@ const AuthPage = () => {
     
 
     const onSubmit = async (formdata) => {
-        const { name, email, password } = formdata;
+        const { name, phone, email, password } = formdata;
         setLoading(true);
 
         try {
             if (mode === 'signUp') { 
-                await signUp(email, password, name);
+                await signUp(email, password, name, phone);
             } else {
                 await signIn(email, password);
             }
@@ -54,19 +56,40 @@ const AuthPage = () => {
                             <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-[24px]'>
                                 <div className='flex flex-col gap-[12px]'>
                                     {mode === 'signUp' && (
-                                        <div className="flex flex-col gap-1">
-                                            <input
-                                                type="text"
-                                                placeholder="Name"
-                                                className="w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded-lg text-secondary font-montserrat text-sm h-[45px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200"
-                                                {...register('name', {
-                                                    required: mode === 'signUp' && 'Name is required',
-                                                    minLength: { value: 2, message: 'Name must be at least 2 characters' },
-                                                })}
-                                            />
-                                            {errors.name && <p className="text-red-500 text-xs font-montserrat">{errors.name.message}</p>}
-                                        </div>
+                                        <>
+                                            {/* Name */}
+                                            <div className="flex flex-col gap-1">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Name"
+                                                    className="w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded-lg text-secondary font-montserrat text-sm h-[45px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200"
+                                                    {...register('name', {
+                                                        required: 'Name is required',
+                                                        minLength: { value: 2, message: 'Name must be at least 2 characters' },
+                                                    })}
+                                                />
+                                                {errors.name && <p className="text-red-500 text-xs font-montserrat">{errors.name.message}</p>}
+                                            </div>
+
+                                            {/* Phone Number */}
+                                            <div className="flex flex-col gap-1">
+                                                <input
+                                                    type="tel"
+                                                    placeholder="Phone Number"
+                                                    className="w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded-lg text-secondary font-montserrat text-sm h-[45px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200"
+                                                    {...register('phone', {
+                                                        required: 'Phone number is required',
+                                                        pattern: {
+                                                            value: /^[0-9+\-\s()]*$/,
+                                                            message: 'Enter a valid phone number',
+                                                        },
+                                                    })}
+                                                />
+                                                {errors.phone && <p className="text-red-500 text-xs font-montserrat">{errors.phone.message}</p>}
+                                            </div>
+                                        </>
                                     )}
+
 
                                     <div className="flex flex-col gap-1">
                                         <input

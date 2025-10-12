@@ -1,7 +1,10 @@
 // Import required dependencies and icons
 import { Handbag, Heart } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import useAuth from '../hooks/useAuth';
+import useCart from '../hooks/useCart';
+import useWishList from '../hooks/useWishList';
 
 const ProductCard = ({ product }) => {
     const location = useLocation();
@@ -12,7 +15,50 @@ const ProductCard = ({ product }) => {
         ? `/categories/${pathSegments[1]}/${product.id}`
         : `/products/${product.id}`;
 
+    const { user } = useAuth();
+    const { addToCart } = useCart();
+    const { addToWishList, getWishList } = useWishList();
 
+
+    const [inWishList, setInWishList] = useState(false)
+
+    useEffect(() => {
+        if (!user?.id) return;
+        const fetchWishList = async () => {
+            const list = await getWishList(user.id)
+            const exists = list.some((item) => item.product.id === product.id)
+            setInWishList(exists)
+        }
+        fetchWishList()
+    }, [user?.id, product.id])
+
+    const handleAddToCart = async (e) => {
+        e.preventDefault()
+        e.stopPropagation();
+        const cart = {
+            created_at: new Date(),
+            user_id: user.id,
+            product,
+            size: 'S',
+            quantity: 1,
+            unit_price: product.discount_price ? product.discount_price : product.price
+        };
+
+        await addToCart(cart)
+    }
+
+
+    const handleWishList = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const wishListItem = {
+            created_at: new Date(),
+            user_id: user.id,
+            product
+        }
+        await addToWishList(wishListItem)
+        setInWishList(true)
+    }
     return (
         // Link to the product detail page
         <Link
@@ -23,9 +69,18 @@ const ProductCard = ({ product }) => {
             {/* =========================
           Wishlist Heart Icon
       ========================== */}
-            <div className="absolute flex items-center justify-center w-[30px] h-[30px] p-[8px] border border-secondary rounded-full top-3 right-3">
-                <Heart strokeWidth={1.5} stroke="#27272A" size={14} />
+            <div
+                onClick={handleWishList}
+                className="absolute flex items-center justify-center w-[30px] h-[30px] p-[8px] border border-secondary rounded-full top-3 right-3"
+            >
+                <Heart
+                    strokeWidth={1.5}
+                    stroke={inWishList ? "#e63946" : "#27272A"}
+                    fill={inWishList ? "#e63946" : "none"}
+                    size={14}
+                />
             </div>
+
 
             {/* =========================
           Product Image
@@ -68,13 +123,13 @@ const ProductCard = ({ product }) => {
                             className={`text-base font-montserrat text-secondary leading-[140%] ${product.discount_price ? 'line-through' : ''
                                 }`}
                         >
-                            {product.price}
+                            {product.price} MMK
                         </p>
 
                         {/* Show discounted price if available */}
                         {product.discount_price && (
                             <p className="font-montserrat text-base text-[#27272A] font-semibold leading-[140%]">
-                                {product.discount_price}
+                                {product.discount_price} MMK
                             </p>
                         )}
                     </div>
@@ -83,7 +138,7 @@ const ProductCard = ({ product }) => {
                 {/* =========================
             Add to Cart Button
         ========================== */}
-                <button className="w-full cursor-pointer h-[48px] px-[24px] bg-primary flex items-center justify-center gap-[8px] text-[#FAFAFA] py-2 rounded-lg active:bg-gray-800 active:scale-95 transition-all duration-200">
+                <button onClick={handleAddToCart} className="w-full cursor-pointer h-[48px] px-[24px] bg-primary flex items-center justify-center gap-[8px] text-[#FAFAFA] py-2 rounded-lg active:bg-gray-800 active:scale-95 transition-all duration-200">
                     <Handbag size={20} />
                     <p className="font-montserrat font-medium text-sm leading-[24px]">
                         Add to cart

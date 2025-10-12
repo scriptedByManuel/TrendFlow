@@ -6,13 +6,29 @@ const useAuth = () => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    const signUp = async (email, password, name) => {
+    const updateUser = async (updates) => {
+        try {
+            const { data, error } = await supabase.auth.updateUser({
+                data: updates, // example: { name: 'John Doe', phone: '12345' }
+            });
+            if (error) throw error;
+            setUser(data.user);
+            toast.success('Profile updated successfully!');
+            return data.user;
+        } catch (error) {
+            toast.error(error.message || 'Failed to update profile');
+            throw error;
+        }
+    };
+
+
+    const signUp = async (email, password, name, phone) => {
         try {
             const { data, error } = await supabase.auth.signUp({
                 email,
                 password,
                 options: {
-                    data: { name },
+                    data: { name, phone },
                 },
             })
             if (error) throw error
@@ -55,8 +71,8 @@ const useAuth = () => {
 
     useEffect(() => {
         const loadUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            setUser(user)
+            const { data: { session } } = await supabase.auth.getSession()
+            setUser(session?.user || null)
             setLoading(false)
         }
         loadUser()
@@ -68,7 +84,7 @@ const useAuth = () => {
         return () => listener.subscription.unsubscribe()
     }, [])
 
-    return { user, loading, signUp, signIn, signOut }
+    return { user, loading, signUp, signIn, signOut, updateUser }
 }
 
 export default useAuth

@@ -1,7 +1,4 @@
-import {
-    createBrowserRouter,
-    useLocation,
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Layout from "../pages/layouts/Layout";
 import Home from "../pages/Home";
 import Products from "../pages/Products";
@@ -11,6 +8,14 @@ import Contact from "../pages/Contact";
 import ProductDetail from "../pages/ProductDetail";
 import Categories from "../pages/Categories";
 import CategoryProduct from "../pages/CategoryProduct";
+import AccountLayout from "../pages/account/AccountLayout";
+import PersonalInfo from "../pages/account/PersonalInfo";
+import Security from "../pages/account/Security";
+import Orders from "../pages/account/Orders";
+import Address from "../pages/account/Address";
+import Payment from "../pages/account/Payment";
+import WishList from "../pages/WishList";
+
 
 const router = createBrowserRouter([
     {
@@ -52,6 +57,36 @@ const router = createBrowserRouter([
             {
                 path: "contact",
                 element: <Contact />
+            },
+            {
+                path: "wishlist",
+                element: <WishList />
+            },
+            {
+                path: "my-account",
+                element: <AccountLayout />,
+                children: [
+                    {
+                        path: "personal-information",
+                        element: <PersonalInfo />
+                    },
+                    {
+                        path: "security",
+                        element: <Security />
+                    },
+                    {
+                        path: "orders",
+                        element: <Orders />
+                    },
+                    {
+                        path: "address",
+                        element: <Address />
+                    },
+                    {
+                        path: "payment",
+                        element: <Payment />
+                    },
+                ]
             }
         ]
     },

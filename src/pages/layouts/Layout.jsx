@@ -13,7 +13,9 @@ const Layout = () => {
     const location = useLocation()
     const isHomePage = location.pathname === '/'
     const nodeRef = useRef(null)
-    const { user } = useAuth()
+    const { user, loading } = useAuth()
+
+    if (loading) return;
 
     return (
         <>

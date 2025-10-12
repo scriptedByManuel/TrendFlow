@@ -35,7 +35,7 @@ const Breadcrumbs = () => {
                 const to = `/${pathSegments.slice(0, index + 1).join("/")}`;
                 const isLast = index === pathSegments.length - 1;
 
-                let label = value;
+                let label = value.replace(/-/g, " "); // Replace hyphens with spaces for better readability
 
                 // Handle product detail label inside categories
                 if (isCategoryProductDetail && isLast) {

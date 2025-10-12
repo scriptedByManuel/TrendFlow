@@ -4,6 +4,9 @@ import { useParams } from 'react-router-dom'
 import ProductList from '../components/ProductList'
 import useSupabaseFetch from '../hooks/useSupabaseFetch';
 import { ChevronLeft, Handbag, Heart, Minus, Plus } from 'lucide-react';
+import useCart from '../hooks/useCart';
+import useAuth from '../hooks/useAuth';
+import useWishList from '../hooks/useWishList';
 
 const ProductDetail = () => {
   // Get product ID from URL parameters
@@ -22,6 +25,62 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState('S'); // selected size
   const [quantity, setQuantity] = useState(1); // product quantity
   const [isOpen, setIsOpen] = useState(false); // accordion toggle state
+
+  const handleMinus = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    } else {
+      setQuantity(1);
+    }
+  }
+
+  const handlePlus = () => {
+    setQuantity(quantity + 1);
+  }
+
+  const { addToCart } = useCart();
+  const { user } = useAuth();
+  const { addToWishList, getWishList } = useWishList();
+  const [inWishList, setInWishList] = useState(false)
+
+  useEffect(() => {
+    const fetchWishList = async () => {
+      const list = await getWishList(user.id)
+      const exists = list.some((item) => item.product.id === product.id)
+      setInWishList(exists)
+    }
+    fetchWishList()
+  }, [user?.id, product.id])
+
+
+  // Handle "Add to Wishlist" button click
+  const handleAddToWishList = async () => {
+    if (inWishList) return; // prevent adding again
+
+    const wishListItem = {
+      created_at: new Date(),
+      user_id: user.id,
+      product
+    };
+
+    await addToWishList(wishListItem);
+    setInWishList(true);
+  };
+
+
+
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+    const cart = {
+      created_at: new Date(),
+      user_id: user.id,
+      product,
+      size: selectedSize,
+      quantity: quantity,
+      unit_price: product.discount_price ? product.discount_price : product.price
+    }
+    await addToCart(cart);
+  }
 
   // Set default selected size when product loads
   useEffect(() => {
@@ -112,13 +171,13 @@ const ProductDetail = () => {
           <div className='flex flex-col gap-[12px]'>
             <h1 className='font-montserrat text-primary text-base leading-[140%]'>Quantity</h1>
             <div className='flex items-center gap-[8px]'>
-              <button className='w-[32px] h-[32px] flex items-center justify-center border border-[#E4E4E7] rounded'>
+              <button onClick={handleMinus} className='cursor-pointer active:scale-95 w-[32px] h-[32px] flex items-center justify-center border border-[#E4E4E7] rounded'>
                 <Minus size={20} strokeWidth={1.5} />
               </button>
               <p className='w-[32px] text-primary font-montserrat text-center text-base leading-[140%]'>
                 {quantity}
               </p>
-              <button className='w-[32px] h-[32px] flex items-center justify-center border border-[#E4E4E7] rounded'>
+              <button onClick={handlePlus} className='cursor-pointer active:scale-95 w-[32px] h-[32px] flex items-center justify-center border border-[#E4E4E7] rounded'>
                 <Plus size={20} strokeWidth={1.5} />
               </button>
             </div>
@@ -156,13 +215,22 @@ const ProductDetail = () => {
           </div>
 
           {/* === Wishlist Button === */}
-          <div className='flex items-center gap-[12px] py-[14px]'>
-            <Heart className='text-secondary' strokeWidth={1.5} />
-            <p className='font-montserrat text-primary text-base leading-[140%]'>Add to wishlist</p>
+          <div
+            onClick={handleAddToWishList}
+            className="flex items-center gap-[12px] py-[14px] cursor-pointer select-none"
+          >
+            <Heart
+              className={`transition-all duration-200 ${inWishList ? 'text-red-500 fill-red-500' : 'text-secondary'}`}
+              strokeWidth={1.5}
+            />
+            <p className='font-montserrat text-primary text-base leading-[140%]'>
+              {inWishList ? 'Added to wishlist' : 'Add to wishlist'}
+            </p>
           </div>
 
+
           {/* === Add to Cart Button === */}
-          <button className="w-full cursor-pointer h-[48px] px-[24px] bg-primary flex items-center justify-center gap-[8px] text-[#FAFAFA] py-2 rounded-lg active:bg-gray-800 active:scale-95 transition-all duration-200">
+          <button onClick={handleAddToCart} className="w-full cursor-pointer h-[48px] px-[24px] bg-primary flex items-center justify-center gap-[8px] text-[#FAFAFA] py-2 rounded-lg active:bg-gray-800 active:scale-95 transition-all duration-200">
             <Handbag size={20} />
             <p className='font-montserrat font-medium text-base leading-[24px]'>Add to cart</p>
           </button>
