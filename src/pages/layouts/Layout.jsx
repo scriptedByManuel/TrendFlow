@@ -19,7 +19,7 @@ const Layout = () => {
 
     return (
         <>
-            <Toaster richColors={true} position="top-right" reverseOrder={false} />
+            <Toaster richColors={true} position="top-left" reverseOrder={false} />
             {user ? (
                 <div className="min-h-screen flex flex-col justify-between">
                     <NavBar />

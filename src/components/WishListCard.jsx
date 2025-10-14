@@ -66,7 +66,7 @@ const WishListCard = ({ item, onRemove }) => {
                         </div>
 
                         {/* Size & Color */}
-                        <div className="flex gap-[12px]">
+                        <div className="flex items-center gap-[12px]">
                             <div className="flex gap-[8px] text-sm font-montserrat text-secondary leading-[100%]">
                                 <p>Size:</p>
                                 <p>S</p>

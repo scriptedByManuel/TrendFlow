@@ -23,7 +23,6 @@ const useCart = () => {
             return data
         } catch (error) {
             toast.error('Failed to clear all carts')
-            throw error
         }
     }
 
@@ -38,7 +37,6 @@ const useCart = () => {
             return data || []
         } catch (error) {
             toast.error(error.message || 'Failed to fetch cart')
-            throw error
         }
     }
 
@@ -80,7 +78,6 @@ const useCart = () => {
             return data
         } catch (error) {
             toast.error(error.message || 'Failed to add to cart')
-            throw error
         }
     }
 
@@ -96,7 +93,6 @@ const useCart = () => {
             return data
         } catch (error) {
             toast.error(error.message || 'Failed to update cart')
-            throw error
         }
     }
 
@@ -120,7 +116,6 @@ const useCart = () => {
             return data
         } catch (error) {
             toast.error(error.message || 'Failed to delete cart')
-            throw error
         }
     }
 

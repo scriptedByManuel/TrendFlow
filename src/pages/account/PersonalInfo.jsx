@@ -16,15 +16,22 @@ const PersonalInfo = () => {
 
   // Keep form synced with user data
   useEffect(() => {
-    setForm({ name, phone });
-  }, [name, phone]);
+    if (!isEdit) {
+      setForm({ name, phone });
+    }
+  }, [name, phone, isEdit]);
 
   // Save updates to Supabase
   const handleSave = async () => {
     try {
       setLoading(true);
-      // Update auth user metadata
-      await updateUser({ name: form.name, phone: form.phone });
+
+      // Update auth user metadata via Supabase
+      await updateUser({
+        name: form.name,
+        phone: form.phone,
+      });
+
       setIsEdit(false);
     } catch (error) {
       console.error("Error updating profile:", error.message);
@@ -103,8 +110,8 @@ const PersonalInfo = () => {
           <>
             <button
               onClick={() => setIsEdit(false)}
-              className="px-4 py-2 rounded-md border text-sm font-montserrat"
               disabled={loading}
+              className="px-4 py-2 rounded-md border text-sm font-montserrat"
             >
               Cancel
             </button>

@@ -1,31 +1,36 @@
 @import "tailwindcss";
 
+/* ===============================
+   Custom Theme Configuration
+================================= */
 @theme {
-    --font-poppins: 'Poppins', sans-serif;
-    --font-montserrat: 'Montserrat', sans-serif;
-    --font-inter: 'Inter', sans-serif;
+    --font-poppins: "Poppins", sans-serif;
+    --font-montserrat: "Montserrat", sans-serif;
+    --font-inter: "Inter", sans-serif;
 
-    --color-primary: #18181B;
-    --color-secondary: #71717A;
+    --color-primary: #18181b;
+    --color-secondary: #71717a;
 }
 
-/* Thin scrollbar for WebKit browsers and Firefox */
+/* ===============================
+   Custom Scrollbar Styles
+================================= */
+
+/* Define scrollbar variables */
 :root {
     --scrollbar-size: 4px;
-    /* change this to make it thicker/thinner */
     --scrollbar-track: transparent;
     --scrollbar-thumb: rgba(16, 24, 40, 0.12);
-    /* subtle dark thumb */
     --scrollbar-thumb-hover: rgba(16, 24, 40, 0.18);
 }
 
-/* Firefox */
+/* Firefox scrollbar */
 * {
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
-/* WebKit */
+/* WebKit scrollbar */
 *::-webkit-scrollbar {
     width: var(--scrollbar-size);
     height: var(--scrollbar-size);
@@ -44,4 +49,37 @@
 
 *::-webkit-scrollbar-thumb:hover {
     background-color: var(--scrollbar-thumb-hover);
+}
+
+/* ===============================
+   Input Autofill & Focus Fix
+================================= */
+
+/* Remove blue autofill background (Chrome/Safari) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: #18181b !important;
+    /* Match primary text color */
+    transition: background-color 9999s ease-in-out 0s !important;
+}
+
+/* Prevent blue background on focus */
+input:focus,
+textarea:focus,
+select:focus {
+    background-color: white !important;
+}
+
+/* ===============================
+   Base Body & Font Setup
+================================= */
+body {
+    font-family: var(--font-inter);
+    color: var(--color-primary);
+    background-color: #fff;
 }

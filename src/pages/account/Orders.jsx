@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import useOrder from '../../hooks/useOrder'
 import useAuth from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const Orders = () => {
   const { user } = useAuth()
   const { getOrderItem } = useOrder()
   const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!user?.id) return
     const fetchOrders = async () => {
+      setLoading(true)
       const data = await getOrderItem(user.id)
       setOrders(data || [])
+      setLoading(false)
     }
     fetchOrders()
   }, [user?.id])
@@ -25,7 +30,7 @@ const Orders = () => {
       </div>
 
       {/* No Orders */}
-      {!orders.length && (
+      {!orders.length && !loading && (
         <div className="flex flex-col items-center justify-center mt-[12px]">
           <p className="text-secondary font-montserrat text-sm text-center">
             No Orders Yet
@@ -38,6 +43,7 @@ const Orders = () => {
         <div className="flex flex-col gap-4 mt-[12px] max-h-[260px] overflow-y-auto">
           {orders.map((order) => (
             <div
+              onClick={() => navigate(`/my-account/orders/${order.id}`)}
               key={order.id}
               className="border border-[#E4E4E4] rounded-lg p-4 flex justify-between items-center hover:bg-gray-50 transition-all"
             >

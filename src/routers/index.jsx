@@ -12,6 +12,7 @@ import AccountLayout from "../pages/account/AccountLayout";
 import PersonalInfo from "../pages/account/PersonalInfo";
 import Security from "../pages/account/Security";
 import Orders from "../pages/account/Orders";
+import OrderDetail from "../pages/account/OrderDetail";
 import Address from "../pages/account/Address";
 import Payment from "../pages/account/Payment";
 import WishList from "../pages/WishList";
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
                     {
                         path: "orders",
                         element: <Orders />
+                    },
+                    {
+                        path: "/my-account/orders/:id",
+                        element: <OrderDetail />
                     },
                     {
                         path: "address",

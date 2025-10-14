@@ -16,9 +16,10 @@ const ProductCard = ({ product }) => {
 
     const { user } = useAuth();
     const { addToCart } = useCart();
-    const { addToWishList, getWishList } = useWishList();
+    const { addToWishList, getWishList, removeFromWishList } = useWishList();
 
     const [inWishList, setInWishList] = useState(false);
+    const [wishItemId, setWishItemId] = useState(null);
 
     // Check if the product is in the wishlist
     useEffect(() => {
@@ -26,8 +27,14 @@ const ProductCard = ({ product }) => {
 
         const fetchWishList = async () => {
             const list = await getWishList(user.id);
-            const exists = list.some((item) => item.product.id === product.id);
-            setInWishList(exists);
+            const found = list.find((item) => item.product?.id === product.id);
+            if (found) {
+                setInWishList(true);
+                setWishItemId(found.id);
+            } else {
+                setInWishList(false);
+                setWishItemId(null);
+            }
         };
 
         fetchWishList();
@@ -54,6 +61,15 @@ const ProductCard = ({ product }) => {
     const handleWishList = async (e) => {
         e.preventDefault();
         e.stopPropagation();
+        if (!user?.id) return
+
+        // Toggle: if already in wishlist, remove it; otherwise add
+        if (inWishList && wishItemId) {
+            await removeFromWishList(wishItemId)
+            setInWishList(false)
+            setWishItemId(null)
+            return
+        }
 
         const wishListItem = {
             created_at: new Date(),
@@ -61,8 +77,11 @@ const ProductCard = ({ product }) => {
             product,
         };
 
-        await addToWishList(wishListItem);
-        setInWishList(true);
+        const data = await addToWishList(wishListItem)
+        // addToWishList may return an array or single object
+        const inserted = Array.isArray(data) ? data[0] : data
+        if (inserted?.id) setWishItemId(inserted.id)
+        setInWishList(true)
     };
 
     return (
@@ -114,9 +133,8 @@ const ProductCard = ({ product }) => {
                     {/* Product Price */}
                     <div className="flex items-center gap-[12px]">
                         <p
-                            className={`text-base font-montserrat text-secondary leading-[140%] ${
-                                product.discount_price ? 'line-through' : ''
-                            }`}
+                            className={`text-base font-montserrat text-secondary leading-[140%] ${product.discount_price ? 'line-through' : ''
+                                }`}
                         >
                             {product.price} MMK
                         </p>

@@ -1,30 +1,27 @@
 import { ArrowRight, Search, X } from 'lucide-react';
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react';
 import supabase from '../supabase/supabaseClient';
 import { Link } from 'react-router-dom';
 
 const SearchModal = ({ open, onClose }) => {
   const [query, setQuery] = useState('');
   const [result, setResult] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const scrollYRef = useRef(0);
 
   const clearSearch = () => {
     setQuery('');
     setResult([]);
     onClose();
-  }
+  };
 
-  const scrollYRef = useRef(0);
-
-
+  // Lock body scroll when modal open
   useEffect(() => {
     if (!open) return;
 
-    // Save current scroll position
     const scrollY = window.scrollY || window.pageYOffset;
     scrollYRef.current = scrollY;
 
-    // Lock body scroll by fixing position and preserving scroll offset
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollY}px`;
     document.body.style.left = '0';
@@ -33,7 +30,6 @@ const SearchModal = ({ open, onClose }) => {
     document.body.style.width = '100%';
 
     return () => {
-      // Restore body styles and scroll position
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.left = '';
@@ -41,10 +37,10 @@ const SearchModal = ({ open, onClose }) => {
       document.body.style.overflow = '';
       document.body.style.width = '';
       window.scrollTo(0, scrollYRef.current || 0);
-
     };
   }, [open]);
 
+  // Fetch products on search
   useEffect(() => {
     if (!query) {
       setResult([]);
@@ -56,17 +52,16 @@ const SearchModal = ({ open, onClose }) => {
     const handleSearch = async () => {
       setLoading(true);
       const { data, error } = await supabase
-        .from("products")
+        .from('products')
         .select('id, name, price, image_url')
         .ilike('name', `%${query}%`)
         .limit(6);
 
       if (!mounted) return;
-
       if (error) {
+        console.error(error);
         setResult([]);
         setLoading(false);
-        console.error(error);
         return;
       }
 
@@ -74,10 +69,7 @@ const SearchModal = ({ open, onClose }) => {
       setLoading(false);
     };
 
-    const timer = setTimeout(() => {
-      handleSearch();
-    }, 300);
-
+    const timer = setTimeout(handleSearch, 300);
     return () => {
       mounted = false;
       clearTimeout(timer);
@@ -86,54 +78,79 @@ const SearchModal = ({ open, onClose }) => {
 
   if (!open) return null;
 
-
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-start pt-20 z-50">
-      <div className='w-[660px] h-[400px] bg-white rounded-lg flex flex-col'>
-
-        {/*  Search input  */}
-        <div className='py-[12px] px-[20px] flex flex-col border-b border-[#E4E4E7]'>
-          <label className='font-montserrat text-secondary text-xs leading-[16px]' htmlFor="searchInput">Search</label>
-          <div className='flex items-center gap-[10px]'>
+      <div className="w-[660px] h-[400px] bg-white rounded-lg flex flex-col">
+        {/* Search input */}
+        <div className="py-[12px] px-[20px] flex flex-col border-b border-[#E4E4E7]">
+          <label
+            className="font-montserrat text-secondary text-xs leading-[16px]"
+            htmlFor="searchInput"
+          >
+            Search
+          </label>
+          <div className="flex items-center gap-[10px]">
             <input
+              id="searchInput"
+              type="text"
               placeholder='eg. “New Dawn”'
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className='flex-grow py-[16px] font-montserrat text-primary text-sm font-medium leading-[20px] outline-none'
-              id='searchInput'
-              type="text"
+              className="flex-grow py-[16px] font-montserrat text-primary text-sm font-medium leading-[20px] outline-none no-autofill-bg"
             />
             <button
               type="button"
-              className='w-[36px] h-[36px] p-[12px] bg-[#F4F4F5] flex items-center justify-center rounded-full'
+              className="w-[36px] h-[36px] p-[12px] bg-[#F4F4F5] flex items-center justify-center rounded-full"
             >
-              <Search className='text-secondary' size={22} strokeWidth={1.5} />
+              <Search className="text-secondary" size={22} strokeWidth={1.5} />
             </button>
           </div>
         </div>
-        {/* Search result */}
-        <div className='p-[20px] flex-grow'>
-          {loading && <p className='font-montserrat text-secondary text-sm'>Searching</p>}
+
+        {/* Search results */}
+        <div className="p-[20px] flex-grow">
+          {loading && (
+            <p className="font-montserrat text-secondary text-sm">Searching...</p>
+          )}
           {!loading && query && (
-            <div className=''>
-              <h1 className='font-montserrat text-sm font-semibold leading-[20px] mb-[20px]'>{result.length} Results for “{query}” Products</h1>
-              <div
-                className='overflow-y-auto flex flex-col gap-[12px] h-[170px]'
-              >
-                {result.map(product => (
-                  <div key={product.id} className='pb-[12px] border-b border-[#E4E4E7] last:border-0'>
-                    <div className='flex items-center justify-between'>
-                      <div className='flex items-center gap-[20px]'>
-                        <div className='w-[82px] h-[100px] bg-[#E6E6E6] rounded-lg overflow-hidden'>
-                          <img className='w-full h-full object-cover' src={product.image_url} alt="" />
+            <div>
+              <h1 className="font-montserrat text-sm font-semibold leading-[20px] mb-[20px]">
+                {result.length} Results for “{query}” Products
+              </h1>
+              <div className="overflow-y-auto flex flex-col gap-[12px] h-[170px]">
+                {result.map((product) => (
+                  <div
+                    key={product.id}
+                    className="pb-[12px] border-b border-[#E4E4E7] last:border-0"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-[20px]">
+                        <div className="w-[82px] h-[100px] bg-[#E6E6E6] rounded-lg overflow-hidden">
+                          <img
+                            className="w-full h-full object-cover"
+                            src={product.image_url}
+                            alt=""
+                          />
                         </div>
-                        <div className='flex flex-col gap-[8px]'>
-                          <h1 className='font-poppins text-sm text-primary font-semibold leading-[100%]'>{product.name}</h1>
-                          <p className='font-montserrat text-sm text-secondary leading-[140%]'>{product.price}</p>
+                        <div className="flex flex-col gap-[8px]">
+                          <h1 className="font-poppins text-sm text-primary font-semibold leading-[100%]">
+                            {product.name}
+                          </h1>
+                          <p className="font-montserrat text-sm text-secondary leading-[140%]">
+                            {product.price}
+                          </p>
                         </div>
                       </div>
-                      <Link onClick={clearSearch} to={`/products/${product.id}`} className='w-[32px] h-[32px] p-[8px] cursor-pointer flex items-center justify-center bg-[#F4F4F5] rounded-full'>
-                        <ArrowRight className='text-[#3F3F46]' size={20} strokeWidth={1} />
+                      <Link
+                        onClick={clearSearch}
+                        to={`/products/${product.id}`}
+                        className="w-[32px] h-[32px] p-[8px] cursor-pointer flex items-center justify-center bg-[#F4F4F5] rounded-full"
+                      >
+                        <ArrowRight
+                          className="text-[#3F3F46]"
+                          size={20}
+                          strokeWidth={1}
+                        />
                       </Link>
                     </div>
                   </div>
@@ -143,16 +160,23 @@ const SearchModal = ({ open, onClose }) => {
           )}
         </div>
 
-        {/* Search value */}
-        <div className='p-[20px]'>
-          <div className='flex items-center justify-between'>
-            <p className='font-montserrat text-sm text-[#52525B] font-semibold leading-[20px]'>Search for “{query}”</p>
-            <X className='text-primary cursor-pointer' strokeWidth={1.5} size={16} onClick={clearSearch} />
+        {/* Footer search value */}
+        <div className="p-[20px]">
+          <div className="flex items-center justify-between">
+            <p className="font-montserrat text-sm text-[#52525B] font-semibold leading-[20px]">
+              Search for “{query}”
+            </p>
+            <X
+              className="text-primary cursor-pointer"
+              strokeWidth={1.5}
+              size={16}
+              onClick={clearSearch}
+            />
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchModal
+export default SearchModal;

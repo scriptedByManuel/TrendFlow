@@ -17,7 +17,6 @@ const useAuth = () => {
             return data.user;
         } catch (error) {
             toast.error(error.message || 'Failed to update profile');
-            throw error;
         }
     };
 
@@ -37,7 +36,6 @@ const useAuth = () => {
             return data
         } catch (error) {
             toast.error(error.message || 'Failed to sign up.')
-            throw error
         }
     }
 
@@ -53,7 +51,6 @@ const useAuth = () => {
             return data
         } catch (error) {
             toast.error(error.message || 'Invalid credentials.')
-            throw error
         }
     }
 

@@ -22,8 +22,8 @@ const AccountLayout = () => {
         <p className='text-base text-justify text-secondary font-montserrat font-normal'>Manage Your Personal Details and Orders.</p>
       </div>
       <div className='flex gap-[40px]'>
-        <div className='w-[300px] border border-[#E4E4E4] rounded-lg flex flex-col gap-[8px] py-[32px] px-[20px]'>
-          <div className='flex flex-col gap-[8px] pb-[20px] border-b border-[#E4E4E7]'>
+        <div className='w-[300px] h-[394px] items-start border border-[#E4E4E4] rounded-lg flex flex-col gap-[8px] py-[32px] px-[20px]'>
+          <div className='flex flex-col self-start gap-[8px] pb-[20px] border-b border-[#E4E4E7]'>
             {navLinks.map(({ to, icon, label }) => (
               <NavLink
                 key={to}

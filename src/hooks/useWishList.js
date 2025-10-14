@@ -15,7 +15,6 @@ const useWishList = () => {
             return data || []
         } catch (error) {
             toast.error('Failed to fetch wishlist.')
-            throw error
         }
     }
 
@@ -54,7 +53,6 @@ const useWishList = () => {
             return data
         } catch (error) {
             toast.error('Failed to add to wishlist.')
-            throw error
         }
     }
 
@@ -80,7 +78,6 @@ const useWishList = () => {
             return data
         } catch (error) {
             toast.error('Failed to remove from wishlist.')
-            throw error
         }
     }
 

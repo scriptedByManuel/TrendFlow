@@ -47,6 +47,21 @@ const Breadcrumbs = () => {
                     label = "Product Detail";
                 }
 
+                // Handle order detail under /my-account/orders/:id
+                if (
+                    pathSegments[0] === 'my-account' &&
+                    pathSegments[1] === 'orders' &&
+                    pathSegments.length === 3 &&
+                    isLast
+                ) {
+                    label = 'Order Detail'
+                }
+
+                // Friendly label for my-account
+                if (value === 'my-account') {
+                    label = 'My Account'
+                }
+
                 return (
                     <div key={to} className="flex items-center gap-[16px]">
                         <span className={commonClasses}>/</span>
