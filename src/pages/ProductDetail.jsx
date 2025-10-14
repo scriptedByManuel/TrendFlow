@@ -45,29 +45,21 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const fetchWishList = async () => {
-      const list = await getWishList(user.id)
+      const list = await getWishList(user?.id)
       const exists = list.some((item) => item.product.id === product.id)
       setInWishList(exists)
     }
     fetchWishList()
   }, [user?.id, product.id])
 
-
-  // Handle "Add to Wishlist" button click
-  const handleAddToWishList = async () => {
-    if (inWishList) return; // prevent adding again
-
-    const wishListItem = {
-      created_at: new Date(),
-      user_id: user.id,
-      product
-    };
-
-    await addToWishList(wishListItem);
-    setInWishList(true);
-  };
-
-
+  // Set default selected size when product loads
+  useEffect(() => {
+    if (sizes.includes('S')) {
+      setSelectedSize('S');
+    } else if (sizes.length > 0) {
+      setSelectedSize(sizes[0].trim());
+    }
+  }, [product]);
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
@@ -82,14 +74,19 @@ const ProductDetail = () => {
     await addToCart(cart);
   }
 
-  // Set default selected size when product loads
-  useEffect(() => {
-    if (sizes.includes('S')) {
-      setSelectedSize('S');
-    } else if (sizes.length > 0) {
-      setSelectedSize(sizes[0].trim());
-    }
-  }, [product]);
+  // Handle "Add to Wishlist" button click
+  const handleAddToWishList = async () => {
+    if (inWishList) return; // prevent adding again
+
+    const wishListItem = {
+      created_at: new Date(),
+      user_id: user?.id,
+      product
+    };
+
+    await addToWishList(wishListItem);
+    setInWishList(true);
+  };
 
   return (
     <section className='w-full py-[40px] flex flex-col gap-[120px]'>

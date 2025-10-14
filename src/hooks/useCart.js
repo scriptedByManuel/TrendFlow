@@ -4,6 +4,29 @@ import { toast } from 'sonner'
 
 const useCart = () => {
 
+    // Delete all carts after place order
+    const deleteAllCarts = async (userId) => {
+        try {
+            const { data, error } = await supabase.from('carts').delete().eq('user_id', userId)
+            if (error) throw error
+            setTimeout(() => {
+                toast.success('Clear all carts!')
+            }, 1500);
+            // dispatch local event so UI can update immediately
+            try {
+                if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('cart:changed', { detail: { userId, action: 'clear' } }))
+                }
+            } catch (e) {
+                console.warn('Could not dispatch cart changed event', e)
+            }
+            return data
+        } catch (error) {
+            toast.error('Failed to clear all carts')
+            throw error
+        }
+    }
+
     // Get all carts for a specific user
     const getCarts = async (userId) => {
         try {
@@ -46,6 +69,14 @@ const useCart = () => {
             if (error) throw error
 
             toast.success('Added to your cart successfully!')
+            try {
+                const inserted = Array.isArray(data) ? data[0] : data
+                if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('cart:changed', { detail: { userId: inserted?.user_id, action: 'insert', item: inserted } }))
+                }
+            } catch (e) {
+                console.warn('Could not dispatch cart changed event', e)
+            }
             return data
         } catch (error) {
             toast.error(error.message || 'Failed to add to cart')
@@ -78,6 +109,14 @@ const useCart = () => {
                 .eq('id', cartId)
             if (error) throw error
             toast.success('Cart deleted successfully!')
+            try {
+                const deleted = Array.isArray(data) ? data[0] : data
+                if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('cart:changed', { detail: { userId: deleted?.user_id, action: 'delete', item: deleted } }))
+                }
+            } catch (e) {
+                console.warn('Could not dispatch cart changed event', e)
+            }
             return data
         } catch (error) {
             toast.error(error.message || 'Failed to delete cart')
@@ -115,7 +154,6 @@ const useCart = () => {
                     filter: `user_id=eq.${userId}`,
                 },
                 (payload) => {
-                    console.log('Cart change:', payload)
                     callback(payload)
                 }
             )
@@ -131,7 +169,7 @@ const useCart = () => {
         }
     }
 
-    return { addToCart, getCarts, updateCart, deleteCart, getCartCount, subscribeToCartChanges, unsubscribeFromCartChanges }
+    return { deleteAllCarts, addToCart, getCarts, updateCart, deleteCart, getCartCount, subscribeToCartChanges, unsubscribeFromCartChanges }
 }
 
 export default useCart

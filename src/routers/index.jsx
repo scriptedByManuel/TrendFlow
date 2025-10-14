@@ -15,6 +15,10 @@ import Orders from "../pages/account/Orders";
 import Address from "../pages/account/Address";
 import Payment from "../pages/account/Payment";
 import WishList from "../pages/WishList";
+import Cart from "../pages/Cart";
+import Checkout from "../pages/Checkout";
+import OrderConfirmation from "../pages/OrderConfirmation";
+
 
 
 const router = createBrowserRouter([
@@ -47,20 +51,32 @@ const router = createBrowserRouter([
                 element: <ProductDetail />
             },
             {
-                path: "about",
+                path: "/about",
                 element: <About />
             },
             {
-                path: "faq",
+                path: "/faq",
                 element: <Faq />
             },
             {
-                path: "contact",
+                path: "/contact",
                 element: <Contact />
             },
             {
-                path: "wishlist",
+                path: "/wishlist",
                 element: <WishList />
+            },
+            {
+                path: "/cart",
+                element: <Cart />
+            },
+            {
+                path: "/cart/checkout",
+                element: <Checkout />
+            },
+            {
+                path: "/cart/checkout/order-confirmation",
+                element: <OrderConfirmation />
             },
             {
                 path: "my-account",
