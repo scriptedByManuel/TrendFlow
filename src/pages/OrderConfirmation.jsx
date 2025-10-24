@@ -13,8 +13,8 @@ const OrderConfirmation = () => {
   }
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center py-[40px]">
-      <div className="w-[543px] flex flex-col gap-[32px] border border-[#E4E4E4] rounded-xl p-[20px]">
+    <div className="w-full min-h-screen flex items-center justify-center py-6 sm:py-[40px]">
+      <div className="w-full max-w-[543px] flex flex-col gap-8 sm:gap-[32px] border border-[#E4E4E4] rounded-xl p-4 sm:p-[20px]">
         {/* Header with order number */}
         <div className="flex flex-col gap-[12px]">
           <div className="flex items-center justify-between">

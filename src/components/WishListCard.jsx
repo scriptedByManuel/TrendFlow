@@ -31,10 +31,10 @@ const WishListCard = ({ item, onRemove }) => {
     };
 
     return (
-        <div className="flex items-center justify-between py-[12px] border-b border-[#E4E4E7] last:border-0">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 border-b border-[#E4E4E7] last:border-0">
             {/* Product Info */}
-            <div className="flex items-center gap-[32px] p-[12px]">
-                <div className="w-[120px] h-[136px] bg-[#E6E6E6] rounded-lg overflow-hidden">
+            <div className="flex items-start sm:items-center gap-4 sm:gap-[32px] p-3">
+                <div className="w-[100px] sm:w-[120px] h-[110px] sm:h-[136px] bg-[#E6E6E6] rounded-lg overflow-hidden flex-shrink-0">
                     <img
                         src={item.product.image_url}
                         alt={item.product.name}
@@ -50,11 +50,10 @@ const WishListCard = ({ item, onRemove }) => {
                         </h1>
                         <div className="flex items-center gap-[12px]">
                             <p
-                                className={`text-sm font-montserrat leading-[100%] ${
-                                    item.product.discount_price
+                                className={`text-sm font-montserrat leading-[100%] ${item.product.discount_price
                                         ? 'line-through text-[#A1A1AA]'
                                         : 'text-primary'
-                                }`}
+                                    }`}
                             >
                                 {item.product.price} MMK
                             </p>
@@ -91,7 +90,7 @@ const WishListCard = ({ item, onRemove }) => {
             </div>
 
             {/* Add to Cart Button */}
-            <div className="flex items-center justify-center p-[12px]">
+            <div className="flex items-center justify-center p-3 mt-3 sm:mt-0">
                 <button
                     onClick={handleAddToCart}
                     className="flex items-center justify-center gap-[8px] px-[20px] py-2 bg-primary rounded-lg text-[#FAFAFA] cursor-pointer active:bg-gray-800 active:scale-95 transition-all duration-200"

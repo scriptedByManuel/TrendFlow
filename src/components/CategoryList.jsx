@@ -42,7 +42,7 @@ const CategoryList = ({ quantity }) => {
   }, [quantity])
 
   return (
-    <div className="mt-[24px] grid grid-cols-4 gap-[20px]">
+    <div className="mt-[24px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-[20px]">
       {/* Loading skeleton placeholders */}
       {loading ? (
         Array.from({ length: quantity }).map((_, i) => (
@@ -63,7 +63,7 @@ const CategoryList = ({ quantity }) => {
           <Link
             key={category.id}
             to={`/categories/${category.title}`}
-            className="cursor-pointer p-[20px] relative w-[265px] h-[200px] rounded-md bg-[#E6E6E6] overflow-hidden flex items-end transition-transform hover:-translate-y-1 hover:shadow-md"
+            className="cursor-pointer p-4 sm:p-[20px] relative w-full h-[200px] rounded-md bg-[#E6E6E6] overflow-hidden flex items-end transition-transform hover:-translate-y-1 hover:shadow-md"
           >
             {/* Category title */}
             <p className="font-inter text-[#3F3F46] font-medium text-xl leading-[100%] z-10">

@@ -87,12 +87,12 @@ const ProductCard = ({ product }) => {
     return (
         <Link
             to={productLink}
-            className="flex flex-col gap-[16px] cursor-pointer relative w-[265px] rounded-lg"
+            className="flex flex-col gap-4 cursor-pointer relative w-full sm:w-[265px] rounded-lg"
         >
             {/* Wishlist Heart Icon */}
             <div
                 onClick={handleWishList}
-                className="absolute top-3 right-3 flex items-center justify-center w-[30px] h-[30px] p-[8px] border border-secondary rounded-full"
+                className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 p-2 border border-secondary rounded-full bg-white"
             >
                 <Heart
                     strokeWidth={1.5}
@@ -103,7 +103,7 @@ const ProductCard = ({ product }) => {
             </div>
 
             {/* Product Image */}
-            <div className="w-full h-[320px] overflow-hidden rounded-lg bg-[#E6E6E6]">
+            <div className="w-full h-[320px] sm:h-[320px] md:h-[280px] lg:h-[320px] overflow-hidden rounded-lg bg-[#E6E6E6]">
                 <img
                     src={product.image_url}
                     alt={product.name}

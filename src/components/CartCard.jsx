@@ -3,7 +3,7 @@ import React from 'react'
 import useCartStore from '../store/useCartStore'
 import useCart from '../hooks/useCart'
 
-const CartCard = ({item}) => {
+const CartCard = ({ item }) => {
 
     const { removeCart, increase, decrease } = useCartStore();
     const { deleteCart, updateCart } = useCart()
@@ -24,9 +24,9 @@ const CartCard = ({item}) => {
     }
 
     return (
-        <div className='py-[12px] last:border-0 border-b border-[#E4E4E7] flex'>
-            <div className='p-[12px] w-[402px] flex items-center gap-[32px]'>
-                <div className='w-[120px] h-[136px] bg-[#E6E6E6] rounded-lg overflow-hidden'>
+        <div className='py-3 last:border-0 border-b border-[#E4E4E7] flex flex-col sm:flex-row'>
+            <div className='p-3 w-full sm:w-[402px] flex items-center gap-4 sm:gap-[32px]'>
+                <div className='w-[120px] h-[136px] bg-[#E6E6E6] rounded-lg overflow-hidden flex-shrink-0'>
                     <img className='w-full h-full object-cover' src={item.product.image_url} alt={item.product.name} />
                 </div>
                 <div className='flex flex-col justify-between h-[136px]'>
@@ -65,7 +65,7 @@ const CartCard = ({item}) => {
             </div>
 
 
-            < div className="w-[114px] flex flex-col items-center gap-[4px] py-[12px]" >
+            < div className="w-full sm:w-[114px] flex flex-col items-center gap-1 py-3" >
                 <p
                     className={`text-sm font-montserrat font-semibold leading-[20px] ${item.product.discount_price ? 'line-through text-secondary' : 'text-primary'
                         }`}
@@ -82,7 +82,7 @@ const CartCard = ({item}) => {
                     )
                 }
             </div >
-            <div className='w-[140px] flex justify-end py-[12px] pr-[12px]'>
+            <div className='w-full sm:w-[140px] flex justify-end py-3 pr-3'>
                 <p className='font-montserrat text-primary font-semibold text-sm leading-[20px]'>{item.unit_price * item.quantity} MMK</p>
             </div>
         </div>

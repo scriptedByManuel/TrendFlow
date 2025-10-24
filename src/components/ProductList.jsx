@@ -13,20 +13,20 @@ const ProductList = ({ table, options, onDataFetched, skeletonCount }) => {
             onDataFetched({ products, loading, error })
         }
     }, [products, loading, error])
-    
-  return (
-      <div className="mt-[24px] grid grid-cols-4 gap-[20px]">
-          {loading
-              ? // Skeletons while loading
-              Array.from({ length: skeletonCount}).map((_, index) => (
-                  <ProductSkeleton key={index} />
-              ))
-              : // Product cards once loaded
-              products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-              ))}
-      </div>
-  )
+
+    return (
+        <div className="mt-[24px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-[20px]">
+            {loading
+                ? // Skeletons while loading
+                Array.from({ length: skeletonCount }).map((_, index) => (
+                    <ProductSkeleton key={index} />
+                ))
+                : // Product cards once loaded
+                products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                ))}
+        </div>
+    )
 }
 
 export default ProductList

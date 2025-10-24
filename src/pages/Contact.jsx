@@ -25,17 +25,17 @@ const Contact = () => {
   };
 
   return (
-    <section className='w-full py-[40px]'>
-      <div className='flex flex-col gap-[12px] w-1/2 mb-[40px]'>
+    <section className='w-full py-6 sm:py-[40px] px-4 sm:px-0'>
+      <div className='flex flex-col gap-3 sm:gap-[12px] w-full sm:w-1/2 mb-6 sm:mb-[40px]'>
         <h1 className='text-[28px] text-primary font-poppins font-bold uppercase'>Get in Touch with Us</h1>
         <p className='text-base text-justify text-secondary font-montserrat font-normal'>
           Have a question or need help? We’re here for you!
         </p>
       </div>
 
-      <div className='flex items-stretch gap-[40px]'>
+      <div className='flex flex-col lg:flex-row items-stretch gap-6'>
         {/* Contact info */}
-        <div className='w-1/2 rounded border border-[#E4E4E7] p-[32px] flex flex-col gap-[40px]'>
+        <div className='w-full lg:w-1/2 rounded border border-[#E4E4E7] p-6 sm:p-[32px] flex flex-col gap-8 sm:gap-[40px]'>
           <div className='border-b border-[#E4E4E7] pb-[20px] flex flex-col gap-[12px]'>
             <div className='flex flex-col gap-[2px]'>
               <h1 className='text-primary text-base font-poppins font-semibold leading-[150%]'>Chat with us</h1>
@@ -64,7 +64,7 @@ const Contact = () => {
         </div>
 
         {/* Contact form */}
-        <form onSubmit={handleSubmit} className='w-1/2 flex flex-col gap-[32px]'>
+        <form onSubmit={handleSubmit} className='w-full lg:w-1/2 flex flex-col gap-8 sm:gap-[32px]'>
           <input
             type="text"
             name="name"
@@ -88,12 +88,12 @@ const Contact = () => {
             placeholder='Message'
             value={formData.message}
             onChange={handleChange}
-            className='w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded-lg text-secondary font-montserrat text-sm h-[249px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200'
+            className='w-full py-[12px] px-[16px] outline-none border border-[#E4E4E7] rounded-lg text-secondary font-montserrat text-sm h-[180px] sm:h-[249px] focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200'
           ></textarea>
 
           <button
             type='submit'
-            className='bg-primary px-[16px] h-[54px] rounded-lg active:bg-gray-800 active:scale-95 cursor-pointer transition-all duration-200 focus:outline-none'
+            className='bg-primary px-4 sm:px-[16px] h-[54px] w-full sm:w-auto rounded-lg active:bg-gray-800 active:scale-95 cursor-pointer transition-all duration-200 focus:outline-none'
           >
             <p className='text-[#FAFAFA] font-montserrat font-semibold text-sm leading-[20%]'>Send Message</p>
           </button>

@@ -89,24 +89,24 @@ const ProductDetail = () => {
   };
 
   return (
-    <section className='w-full py-[40px] flex flex-col gap-[120px]'>
+    <section className='w-full py-6 sm:py-[40px] px-4 sm:px-0 flex flex-col gap-8 sm:gap-[120px]'>
 
       {/* =========================
           PRODUCT DETAIL SECTION
       ========================== */}
-      <div className='flex items-start gap-[64px]'>
+      <div className='flex flex-col lg:flex-row items-start gap-6 lg:gap-[64px]'>
 
         {/* Product Image */}
-        <div className='w-[507px] h-[577px] bg-[#E6E6E6] rounded-lg overflow-hidden'>
+        <div className='w-full lg:w-[507px] h-[320px] sm:h-[420px] lg:h-[577px] bg-[#E6E6E6] rounded-lg overflow-hidden'>
           <img className='w-full h-full object-cover' src={product.image_url} alt={product.name} />
         </div>
 
         {/* Product Information */}
-        <div className='flex-1 flex flex-col gap-[27px] min-h-[577px]'>
+        <div className='flex-1 flex flex-col gap-6 sm:gap-[27px]'>
 
           {/* === Product Name & Price === */}
-          <div className='flex flex-col gap-[8px]'>
-            <div className='flex items-center gap-[12px]'>
+          <div className='flex flex-col gap-2 sm:gap-[8px]'>
+            <div className='flex items-center gap-3 sm:gap-[12px]'>
               <h1 className="text-2xl font-poppins font-semibold text-primary leading-[100%]">{product.name}</h1>
               {/* "New" Tag */}
               {product.is_latest && (

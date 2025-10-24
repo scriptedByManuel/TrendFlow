@@ -32,7 +32,7 @@ const Layout = () => {
                             mountOnEnter
                             unmountOnExit
                         >
-                            <div ref={nodeRef} className={`${isHomePage ? '' : 'px-[80px]'}`}>
+                            <div ref={nodeRef} className={`${isHomePage ? '' : 'px-4 sm:px-[80px]'}`}>
                                 <Breadcrumbs />
                                 <Outlet />
                             </div>

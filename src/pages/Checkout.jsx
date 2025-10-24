@@ -29,7 +29,7 @@ const Checkout = () => {
   const { getCarts, deleteAllCarts } = useCart()
   const { placeOrder } = useOrder()
   const { addOrder } = useOrderStore()
-  
+
   const subtotal = carts.reduce((sum, item) => sum + item.unit_price * item.quantity, 0);
   const shipping = 3000
   const taxRate = 0.05 // 0.05% tax
@@ -72,7 +72,20 @@ const Checkout = () => {
     additional_detail: additionalDetail,
   }
 
+  const isFormValid =
+    name.trim() &&
+    email.trim() &&
+    phoneNumber.trim() &&
+    birthday.trim() &&
+    payment.trim() &&
+    selectedAddress !== null;
+
+
   const handleOrder = async () => {
+    if (!isFormValid) {
+      toast.error("Please fill in all required fields before placing your order.");
+      return;
+    }
     addOrder(orderData)
     await placeOrder(orderData)
     await deleteAllCarts(user.id)
@@ -142,8 +155,8 @@ const Checkout = () => {
   };
 
   return (
-    <section className='w-full py-[40px]'>
-      <div className='flex flex-col gap-[12px] w-1/2 mb-[40px]'>
+    <section className='w-full py-6 sm:py-[40px] px-4 sm:px-0'>
+      <div className='flex flex-col gap-3 sm:gap-[12px] w-full sm:w-1/2 mb-6 sm:mb-[40px]'>
         <h1 className='text-[28px] text-primary font-poppins font-bold uppercase'>
           Checkout
         </h1>
@@ -152,13 +165,13 @@ const Checkout = () => {
         </p>
       </div>
 
-      <div className='flex gap-[40px] w-full'>
-        <div className='w-[680px] flex flex-col gap-[40px] border border-[#E4E4E4] rounded-xl p-[24px]'>
+      <div className='flex flex-col lg:flex-row gap-6 w-full'>
+        <div className='w-full lg:w-[680px] flex flex-col gap-[24px] sm:gap-[40px] border border-[#E4E4E4] rounded-xl p-4 sm:p-[24px]'>
 
           {/* Shipping address */}
           <div className='flex flex-col gap-[20px] border-b border-[#E4E4E7] pb-[40px]'>
             <h1 className='font-poppins font-semibold text-primary text-lg leading-[150%]'>Shipping Address</h1>
-            <div className="w-[542px] flex flex-col gap-4">
+            <div className="w-full sm:w-[542px] flex flex-col gap-4">
               {addresses.length > 0 ? (
                 addresses.map((addr, index) => (
                   <label
@@ -310,7 +323,7 @@ const Checkout = () => {
             <textarea value={additionalDetail} onChange={(e) => setAdditionalDetail(e.target.value)} className='w-full h-[150px] p-[16px] border border-[#E4E4E7] rounded-lg outline-none  text-secondary font-montserrat text-sm focus:border-gray-500 focus:ring-2 focus:ring-gray-200 hover:border-gray-400 transition-all duration-200' name="additional-detail" id="additional-detail"></textarea>
           </div>
         </div>
-        <OrderSummary handleOrder={handleOrder} />
+        <OrderSummary handleOrder={handleOrder} isDisabled={!isFormValid} />
       </div>
 
     </section>

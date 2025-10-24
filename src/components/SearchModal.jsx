@@ -79,8 +79,8 @@ const SearchModal = ({ open, onClose }) => {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-start pt-20 z-50">
-      <div className="w-[660px] h-[400px] bg-white rounded-lg flex flex-col">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-start pt-16 sm:pt-20 z-50">
+      <div className="w-full max-w-[660px] max-h-[90vh] bg-white rounded-lg flex flex-col m-4 overflow-hidden">
         {/* Search input */}
         <div className="py-[12px] px-[20px] flex flex-col border-b border-[#E4E4E7]">
           <label
@@ -108,49 +108,30 @@ const SearchModal = ({ open, onClose }) => {
         </div>
 
         {/* Search results */}
-        <div className="p-[20px] flex-grow">
+        <div className="p-4 sm:p-[20px] flex-grow overflow-auto">
           {loading && (
             <p className="font-montserrat text-secondary text-sm">Searching...</p>
           )}
           {!loading && query && (
             <div>
-              <h1 className="font-montserrat text-sm font-semibold leading-[20px] mb-[20px]">
+              <h1 className="font-montserrat text-sm font-semibold leading-[20px] mb-4">
                 {result.length} Results for “{query}” Products
               </h1>
-              <div className="overflow-y-auto flex flex-col gap-[12px] h-[170px]">
+              <div className="flex flex-col gap-3">
                 {result.map((product) => (
-                  <div
-                    key={product.id}
-                    className="pb-[12px] border-b border-[#E4E4E7] last:border-0"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-[20px]">
-                        <div className="w-[82px] h-[100px] bg-[#E6E6E6] rounded-lg overflow-hidden">
-                          <img
-                            className="w-full h-full object-cover"
-                            src={product.image_url}
-                            alt=""
-                          />
+                  <div key={product.id} className="pb-3 border-b border-[#E4E4E7] last:border-0">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-[72px] h-[86px] sm:w-[82px] sm:h-[100px] bg-[#E6E6E6] rounded-lg overflow-hidden">
+                          <img className="w-full h-full object-cover" src={product.image_url} alt="" />
                         </div>
-                        <div className="flex flex-col gap-[8px]">
-                          <h1 className="font-poppins text-sm text-primary font-semibold leading-[100%]">
-                            {product.name}
-                          </h1>
-                          <p className="font-montserrat text-sm text-secondary leading-[140%]">
-                            {product.price}
-                          </p>
+                        <div className="flex flex-col gap-2">
+                          <h1 className="font-poppins text-sm text-primary font-semibold leading-[100%]">{product.name}</h1>
+                          <p className="font-montserrat text-sm text-secondary leading-[140%]">{product.price}</p>
                         </div>
                       </div>
-                      <Link
-                        onClick={clearSearch}
-                        to={`/products/${product.id}`}
-                        className="w-[32px] h-[32px] p-[8px] cursor-pointer flex items-center justify-center bg-[#F4F4F5] rounded-full"
-                      >
-                        <ArrowRight
-                          className="text-[#3F3F46]"
-                          size={20}
-                          strokeWidth={1}
-                        />
+                      <Link onClick={clearSearch} to={`/products/${product.id}`} className="w-[32px] h-[32px] p-2 cursor-pointer flex items-center justify-center bg-[#F4F4F5] rounded-full">
+                        <ArrowRight className="text-[#3F3F46]" size={20} strokeWidth={1} />
                       </Link>
                     </div>
                   </div>

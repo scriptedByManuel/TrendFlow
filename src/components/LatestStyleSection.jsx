@@ -5,7 +5,7 @@ import ProductList from './ProductList'
 
 const LatestStyleSection = () => {
   return (
-    <section className='px-[80px] my-[80px]'>
+    <section className='px-4 sm:px-[80px] my-[40px] sm:my-[80px]'>
       <div className='flex flex-col'>
         {/* Heading */}
         <div className='flex flex-col gap-[8px]'>

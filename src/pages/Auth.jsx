@@ -6,25 +6,25 @@ import useAuth from '../hooks/useAuth';
 
 
 const AuthPage = () => {
-    
+
 
     const [mode, setMode] = useState('signUp'); // 'signIn' or 'signUp'
     const [loading, setLoading] = useState(false);
 
     const { register, handleSubmit, formState: { errors }, reset, } = useForm();
-    const {signUp, signIn} = useAuth();
+    const { signUp, signIn } = useAuth();
 
     useEffect(() => {
         reset(); // reset all fields whenever mode changes
     }, [mode, reset]);
-    
+
 
     const onSubmit = async (formdata) => {
         const { name, phone, email, password } = formdata;
         setLoading(true);
 
         try {
-            if (mode === 'signUp') { 
+            if (mode === 'signUp') {
                 await signUp(email, password, name, phone);
             } else {
                 await signIn(email, password);
@@ -38,12 +38,12 @@ const AuthPage = () => {
     }
 
     return (
-        <div className='min-h-screen p-[20px]'>
-            <div className='flex items-center gap-[80px]'>
-                <div className='w-[645px] h-[832px] overflow-hidden rounded-lg'>
+        <div className='min-h-screen p-4 sm:p-[20px]'>
+            <div className='flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:gap-[80px]'>
+                <div className='w-full lg:w-[645px] h-[320px] sm:h-[832px] overflow-hidden rounded-lg'>
                     <img className='w-full h-full object-cover' src={authImage} alt="Auth Image" />
                 </div>
-                <div className='w-[455px] flex flex-col gap-[40px] items-center p-[20px]'>
+                <div className='w-full lg:w-[455px] flex flex-col gap-8 sm:gap-[40px] items-center p-4 sm:p-[20px]'>
                     <div>
                         <img src={logo} alt="logo" />
                     </div>

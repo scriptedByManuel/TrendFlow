@@ -24,8 +24,8 @@ const Cart = () => {
     }, [user?.id]);
 
     return (
-        <section className='w-full py-[40px]'>
-            <div className='flex flex-col gap-[12px] w-1/2 mb-[40px]'>
+        <section className='w-full py-[24px] sm:py-[40px] px-4 sm:px-0'>
+            <div className='flex flex-col gap-3 sm:gap-[12px] w-full sm:w-1/2 mb-[24px] sm:mb-[40px]'>
                 <h1 className='text-[28px] text-primary font-poppins font-bold uppercase'>
                     Your Cart
                 </h1>
@@ -34,10 +34,10 @@ const Cart = () => {
                 </p>
             </div>
 
-            <div className='flex gap-[40px]'>
-                <div className='w-[680px] flex flex-col border border-[#E4E4E4] rounded-lg px-[12px]'>
+            <div className='flex flex-col lg:flex-row gap-4'>
+                <div className='w-full lg:w-[680px] flex flex-col border border-[#E4E4E4] rounded-lg px-3 sm:px-[12px]'>
                     <div className='border-b border-[#E4E7E4] p-[12px] flex items-center justify-between'>
-                        <div className='w-[379px]'>
+                        <div className='w-full lg:w-[379px]'>
                             <p className='font-poppins text-xs font-semibold leading-[20px] text-secondary uppercase'>
                                 product
                             </p>

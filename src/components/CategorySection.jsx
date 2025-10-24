@@ -10,7 +10,7 @@ import CategoryList from './CategoryList'
  */
 const CategorySection = () => {
   return (
-    <section className="px-[80px] mt-[80px]">
+    <section className="px-4 sm:px-[80px] mt-[40px] sm:mt-[80px]">
       <div className="flex flex-col">
 
         {/* Section Header */}
