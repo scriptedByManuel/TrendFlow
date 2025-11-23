@@ -1,3 +1,8 @@
+After creating your account, a verification email has been sent to the address you provided.
+Please check your inbox (and spam folder), then click the confirmation link to activate your account.
+
+You must verify your email before you can access the home page.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
